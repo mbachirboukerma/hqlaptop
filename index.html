@@ -86,7 +86,7 @@
             </div>
             <!-- عنوان المنتج -->
             <h1 class="text-2xl md:text-3xl font-bold text-[#571399] text-center flex items-center gap-2">
-              Dell Latitude 7400 Business Laptop
+              Dell Latitude 7420 Business Laptop
             </h1>
             <!-- شريط تقييم بالنجوم -->
             <div class="flex items-center gap-1 text-yellow-400 text-lg mt-1">
@@ -189,8 +189,7 @@
           <form id="order-form" class="w-full bg-[#571399]/90 rounded-lg shadow-lg p-6 text-white space-y-4 mt-2" autocomplete="off">
             <h2 class="text-xl font-bold mb-2 text-white">نموذج الطلب</h2>
             <div class="flex flex-col md:flex-row gap-4">
-              <input required type="text" placeholder="الاسم" class="flex-1 p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]" />
-              <input required type="text" placeholder="اللقب" class="flex-1 p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]" />
+              <input required type="text" placeholder="الاسم الكامل" class="w-full p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]" />
             </div>
             <!-- رقم الهاتف والكمية -->
             <div class="flex flex-col md:flex-row gap-4">
@@ -463,6 +462,72 @@
       <img id="lightbox-img" src="" alt="صورة المنتج" class="max-h-[80vh] max-w-[90vw] rounded-xl shadow-2xl border-4 border-white object-contain" />
     </div>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('order-form');
+        const successStep = document.getElementById('success-step');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitBtnText = submitBtn.querySelector('span');
+        const newOrderBtn = document.getElementById('new-order-btn');
+      
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+      
+          // إعدادات زر الإرسال أثناء التحميل
+          submitBtn.disabled = true;
+          submitBtnText.textContent = "يرجى الانتظار...";
+          const loader = document.createElement("span");
+          loader.className = "animate-spin border-4 border-white border-t-transparent rounded-full w-6 h-6";
+          submitBtn.appendChild(loader);
+      
+          // استخراج نوع الحاسوب من العنوان
+          const pcTitle = document.querySelector('h1').innerText.trim();
+          const formData = new FormData();
+      
+          formData.append("pcModel", pcTitle);
+          formData.append("name", form.querySelector('input[placeholder="الاسم الكامل"]').value);
+          formData.append("phone", form.querySelector('#phone-input').value);
+          formData.append("quantity", form.querySelector('#qty-input').value);
+          formData.append("wilaya", form.querySelector('#wilaya-select').value);
+          formData.append("daira", form.querySelector('#daira-select').value);
+          formData.append("commune", form.querySelector('#commune-select').value);
+          formData.append("address", form.querySelector('#address-input').value);
+          formData.append("deliveryType", form.querySelector('input[name="delivery"]:checked').value);
+          formData.append("deliveryCompany", form.querySelector('#delivery-company').value);
+          formData.append("totalPrice", document.getElementById('invoice-total').innerText);
+          formData.append("status", "مكتمل");
+      
+          // إرسال البيانات
+          fetch('https://script.google.com/macros/s/AKfycbwdBummgYfnJgVLs9zU07zbnbYFYomqyUKh4r_xETZau_2givzqK-9kX-QoF25t3sdU/exec', {
+            method: 'POST',
+            body: formData
+          })
+          .then(res => res.text())
+          .then(msg => {
+            // إظهار واجهة النجاح
+            form.classList.add('hidden');
+            successStep.classList.remove('hidden');
+          })
+          .catch(err => {
+            console.error(err);
+            alert("❌ حدث خطأ أثناء الإرسال.");
+          })
+          .finally(() => {
+            // إعادة الزر إلى حالته الطبيعية
+            submitBtn.disabled = false;
+            submitBtnText.textContent = "أرسل الطلب";
+            loader.remove();
+          });
+        });
+      
+        // زر "طلب جهاز آخر"
+        newOrderBtn.addEventListener('click', () => {
+          successStep.classList.add('hidden');
+          form.classList.remove('hidden');
+          form.reset();
+        });
+      });
+    </script>
     <script src="main.js"></script>
   </body>
 </html> 
