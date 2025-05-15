@@ -439,54 +439,168 @@ function validatePhone() {
   return valid;
 }
 phoneInput.addEventListener('input', validatePhone);
-// منع الإرسال إذا الرقم غير صحيح
-const orderForm = document.getElementById('order-form');
-const successStep = document.getElementById('success-step');
-const newOrderBtn = document.getElementById('new-order-btn');
-orderForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  if (!validatePhone()) return;
-  // إخفاء الفورم وإظهار رسالة النجاح
-  orderForm.style.display = 'none';
-  successStep.classList.remove('hidden');
-  // يمكنك هنا إرسال البيانات فعلياً عبر fetch/ajax
-  // showToast('✅ تم إرسال طلبك بنجاح! سنقوم بالتواصل معك قريباً', 'success');
-  // سكرول تلقائي لأعلى رسالة النجاح في الموبايل
-  if (window.innerWidth < 768) {
-    setTimeout(() => {
-      successStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100); // تأخير بسيط لضمان ظهور العنصر
+
+// متغيرات لتتبع حالة النموذج
+let partialDataTimeout = null;
+let hasSubmittedForm = false;
+
+// متغير لتتبع آخر رقم هاتف تم إرساله جزئيًا
+let lastPartialPhone = '';
+
+// حفظ البيانات الجزئية في Google Sheets
+function savePartialData(name, phone) {
+  if (phone === lastPartialPhone) return; // لا ترسل إذا الرقم نفسه
+  // تحقق من صحة رقم الهاتف الجزئي
+  if (!/^(05|06|07)\d{8}$/.test(phone)) return;
+  console.log('إرسال جزئي:', name, phone);
+  if (!name && !phone) return;
+  if (!phone) return;
+  if (hasSubmittedForm) return;
+
+  lastPartialPhone = phone; // حدّث الرقم الأخير هنا فقط عند الإرسال الفعلي
+
+  const formData = new FormData();
+  formData.append("pcModel", document.querySelector('h1').innerText.trim());
+  formData.append("name", name);
+  formData.append("phone", phone);
+  formData.append("status", "غير مكتمل");
+  formData.append("timestamp", new Date().toLocaleString('ar-DZ'));
+
+  // إرسال البيانات
+  fetch('https://script.google.com/macros/s/AKfycbwdBummgYfnJgVLs9zU07zbnbYFYomqyUKh4r_xETZau_2givzqK-9kX-QoF25t3sdU/exec', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(msg => {
+    console.log('تم حفظ البيانات الجزئية بنجاح');
+  })
+  .catch(err => {
+    console.error('خطأ في حفظ البيانات الجزئية:', err);
+  });
+}
+
+// --- حفظ واسترجاع بيانات الفورم من localStorage ---
+const formFields = {
+  firstName: document.querySelector('#order-form input[placeholder="الاسم"]'),
+  lastName: document.querySelector('#order-form input[placeholder="اللقب"]'),
+  phone: document.getElementById('phone-input'),
+  qty: document.getElementById('qty-input'),
+  wilaya: document.getElementById('wilaya-select'),
+  daira: document.getElementById('daira-select'),
+  commune: document.getElementById('commune-select'),
+  address: document.getElementById('address-input'),
+  deliveryCompany: document.getElementById('delivery-company'),
+  deliveryType: document.querySelectorAll('input[name="delivery"]'),
+};
+
+function saveFormToStorage() {
+  const orderForm = document.getElementById('order-form');
+  if (!orderForm) return;
+  const nameInput = orderForm.querySelector('input[placeholder="الاسم الكامل"]');
+  const phoneInput = orderForm.querySelector('#phone-input');
+  // حفظ البيانات الجزئية إذا تم إدخال الاسم والهاتف
+  if (nameInput?.value && phoneInput?.value && !hasSubmittedForm) {
+    if (partialDataTimeout) {
+      clearTimeout(partialDataTimeout);
+    }
+    partialDataTimeout = setTimeout(() => {
+      savePartialData(nameInput.value, phoneInput.value);
+    }, 10000); // أو أي مدة أخرى حسب الحاجة
   }
-});
-// زر طلب جديد
-newOrderBtn.addEventListener('click', function() {
-  orderForm.reset();
+  const formData = {
+    name: nameInput?.value || '',
+    phone: phoneInput?.value || '',
+    quantity: orderForm.querySelector('#qty-input')?.value || '',
+    wilaya: orderForm.querySelector('#wilaya-select')?.value || '',
+    daira: orderForm.querySelector('#daira-select')?.value || '',
+    commune: orderForm.querySelector('#commune-select')?.value || '',
+    address: orderForm.querySelector('#address-input')?.value || '',
+    deliveryType: orderForm.querySelector('input[name="delivery"]:checked')?.value || '',
+    deliveryCompany: orderForm.querySelector('#delivery-company')?.value || ''
+  };
+  localStorage.setItem('formData', JSON.stringify(formData));
+}
+
+function loadFormFromStorage() {
+  const orderForm = document.getElementById('order-form');
+  if (!orderForm) return;
+  const savedData = localStorage.getItem('formData');
+  if (!savedData) return;
+  const formData = JSON.parse(savedData);
+  const nameInput = orderForm.querySelector('input[placeholder="الاسم الكامل"]');
+  const phoneInput = orderForm.querySelector('#phone-input');
+  const qtyInput = orderForm.querySelector('#qty-input');
+  const wilayaSelect = orderForm.querySelector('#wilaya-select');
+  const dairaSelect = orderForm.querySelector('#daira-select');
+  const communeSelect = orderForm.querySelector('#commune-select');
+  const addressInput = orderForm.querySelector('#address-input');
+  const deliveryCompany = orderForm.querySelector('#delivery-company');
+  if (nameInput) nameInput.value = formData.name || '';
+  if (phoneInput) phoneInput.value = formData.phone || '';
+  if (qtyInput) qtyInput.value = formData.quantity || '';
+  if (wilayaSelect) wilayaSelect.value = formData.wilaya || '';
+  if (dairaSelect) dairaSelect.value = formData.daira || '';
+  if (communeSelect) communeSelect.value = formData.commune || '';
+  if (addressInput) addressInput.value = formData.address || '';
+  if (deliveryCompany) deliveryCompany.value = formData.deliveryCompany || '';
   updateInvoice();
-  validatePhone();
-  orderForm.style.display = '';
-  successStep.classList.add('hidden');
+}
+
+function clearFormStorage() {
+  const orderForm = document.getElementById('order-form');
+  if (!orderForm) return;
+  localStorage.removeItem('formData');
+}
+
+// حفظ عند كل تغيير
+Object.values(formFields).forEach(field => {
+  if (field instanceof NodeList) {
+    field.forEach(radio => radio.addEventListener('change', saveFormToStorage));
+  } else if (field) {
+    field.addEventListener('input', saveFormToStorage);
+    field.addEventListener('change', saveFormToStorage);
+  }
 });
 
-// Toast للنجاح/الفشل
-const toast = document.getElementById('form-toast');
-const toastMsg = document.getElementById('toast-msg');
-const toastIcon = document.getElementById('toast-icon');
-function showToast(msg, type = 'success') {
-  toastMsg.textContent = msg;
-  if (type === 'success') {
-    toast.classList.remove('border-red-400', 'text-red-700');
-    toast.classList.add('border-green-400', 'text-green-700');
-    toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>';
-  } else {
-    toast.classList.remove('border-green-400', 'text-green-700');
-    toast.classList.add('border-red-400', 'text-red-700');
-    toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>';
+// استرجاع عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', loadFormFromStorage);
+
+// حذف عند نجاح الإرسال
+window.addEventListener('DOMContentLoaded', function() {
+  const orderForm = document.getElementById('order-form');
+  if (!orderForm) return;
+  orderForm.addEventListener('submit', clearFormStorage);
+});
+
+// إضافة مستمع لحدث beforeunload
+window.addEventListener('beforeunload', function(e) {
+  const orderForm = document.getElementById('order-form');
+  if (!orderForm || hasSubmittedForm) return;
+  const nameInput = orderForm.querySelector('input[placeholder="الاسم الكامل"]');
+  const phoneInput = orderForm.querySelector('#phone-input');
+  // إذا تم إدخال الاسم والهاتف ولم يتم إرسال النموذج
+  if (nameInput?.value && phoneInput?.value && !orderForm.classList.contains('hidden')) {
+    // إرسال البيانات مباشرة عند إغلاق الصفحة
+    savePartialData(nameInput.value, phoneInput.value);
+    // إظهار رسالة تأكيد للمستخدم
+    e.preventDefault();
+    e.returnValue = '';
   }
-  toast.classList.remove('opacity-0', 'pointer-events-none');
-  setTimeout(() => {
-    toast.classList.add('opacity-0', 'pointer-events-none');
-  }, 3500);
-}
+});
+
+// إضافة مستمع لحدث visibilitychange
+document.addEventListener('visibilitychange', function() {
+  const orderForm = document.getElementById('order-form');
+  if (document.visibilityState === 'hidden' && !hasSubmittedForm) {
+    if (!orderForm) return;
+    const nameInput = orderForm.querySelector('input[placeholder="الاسم الكامل"]');
+    const phoneInput = orderForm.querySelector('#phone-input');
+    if (nameInput?.value && phoneInput?.value && !orderForm.classList.contains('hidden')) {
+      savePartialData(nameInput.value, phoneInput.value);
+    }
+  }
+});
 
 // إشعارات الطلبات الحية
 const cities = [
@@ -570,74 +684,6 @@ productCarousel.addEventListener('touchend', function(e) {
   touchEndX = null;
 });
 
-// --- حفظ واسترجاع بيانات الفورم من localStorage ---
-const formFields = {
-  firstName: document.querySelector('#order-form input[placeholder="الاسم"]'),
-  lastName: document.querySelector('#order-form input[placeholder="اللقب"]'),
-  phone: document.getElementById('phone-input'),
-  qty: document.getElementById('qty-input'),
-  wilaya: document.getElementById('wilaya-select'),
-  daira: document.getElementById('daira-select'),
-  commune: document.getElementById('commune-select'),
-  address: document.getElementById('address-input'),
-  deliveryCompany: document.getElementById('delivery-company'),
-  deliveryType: document.querySelectorAll('input[name="delivery"]'),
-};
-
-function saveFormToStorage() {
-  const data = {
-    firstName: formFields.firstName.value,
-    lastName: formFields.lastName.value,
-    phone: formFields.phone.value,
-    qty: formFields.qty.value,
-    wilaya: formFields.wilaya.value,
-    daira: formFields.daira.value,
-    commune: formFields.commune.value,
-    address: formFields.address.value,
-    deliveryCompany: formFields.deliveryCompany.value,
-    deliveryType: document.querySelector('input[name="delivery"]:checked')?.value || '',
-  };
-  localStorage.setItem('orderFormData', JSON.stringify(data));
-}
-
-function loadFormFromStorage() {
-  const data = JSON.parse(localStorage.getItem('orderFormData') || '{}');
-  if (data.firstName) formFields.firstName.value = data.firstName;
-  if (data.lastName) formFields.lastName.value = data.lastName;
-  if (data.phone) formFields.phone.value = data.phone;
-  if (data.qty) formFields.qty.value = data.qty;
-  if (data.wilaya) formFields.wilaya.value = data.wilaya;
-  if (data.daira) formFields.daira.value = data.daira;
-  if (data.commune) formFields.commune.value = data.commune;
-  if (data.address) formFields.address.value = data.address;
-  if (data.deliveryCompany) formFields.deliveryCompany.value = data.deliveryCompany;
-  if (data.deliveryType) {
-    formFields.deliveryType.forEach(radio => {
-      if (radio.value === data.deliveryType) radio.checked = true;
-    });
-  }
-}
-
-function clearFormStorage() {
-  localStorage.removeItem('orderFormData');
-}
-
-// حفظ عند كل تغيير
-Object.values(formFields).forEach(field => {
-  if (field instanceof NodeList) {
-    field.forEach(radio => radio.addEventListener('change', saveFormToStorage));
-  } else if (field) {
-    field.addEventListener('input', saveFormToStorage);
-    field.addEventListener('change', saveFormToStorage);
-  }
-});
-
-// استرجاع عند تحميل الصفحة
-window.addEventListener('DOMContentLoaded', loadFormFromStorage);
-
-// حذف عند نجاح الإرسال
-orderForm.addEventListener('submit', clearFormStorage);
-
 // --- تحديث عدد الزوار الحاليين بشكل عشوائي ---
 const liveViewers = document.getElementById('live-viewers');
 function updateLiveViewers() {
@@ -666,4 +712,26 @@ if (liveViewersBar && liveViewersFull && liveViewersMini) {
       }, 2000);
     }
   });
-} 
+}
+
+// مؤقت إرسال جزئي عند تعمير رقم الهاتف فقط (الاسم اختياري)
+window.addEventListener('DOMContentLoaded', function() {
+  const orderForm = document.getElementById('order-form');
+  if (!orderForm) return;
+  const nameInput = orderForm.querySelector('input[placeholder="الاسم الكامل"]');
+  const phoneInput = orderForm.querySelector('#phone-input');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      if (partialDataTimeout) clearTimeout(partialDataTimeout);
+      if (phoneInput.value.trim().length > 0) {
+        partialDataTimeout = setTimeout(() => {
+          // أرسل فقط إذا الرقم مختلف عن آخر رقم أُرسل
+          if (phoneInput.value !== lastPartialPhone) {
+            savePartialData(nameInput?.value || '', phoneInput.value);
+            lastPartialPhone = phoneInput.value;
+          }
+        }, 2000); // 2 ثواني
+      }
+    });
+  }
+}); 
