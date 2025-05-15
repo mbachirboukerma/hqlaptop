@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>عرض خاص: Dell Latitude 7400</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+  </head>
+  <body class="bg-[#DFF6FF] min-h-screen flex flex-col items-center font-sans animate-[fadeIn_1.2s_ease-in]">
+    <!-- شريط عرض أعلى الصفحة -->
+    <div class="w-full bg-gradient-to-l from-[#571399] to-[#1D283B] text-white py-2 px-4 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-sm md:text-base font-bold shadow-md animate-pulse rounded-b-xl">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🚚</span> توصيل مجاني لكل الولايات!
+        <span class="hidden md:inline">|</span>
+        <span class="text-lg">🎁</span> العرض محدود حتى نهاية الأسبوع
+      </div>
+      <div class="flex items-center gap-2 mt-1 md:mt-0">
+        <span class="text-xs md:text-base">ينتهي العرض بعد:</span>
+        <span id="countdown" class="bg-white/20 px-2 py-1 rounded font-mono tracking-widest text-yellow-300 shadow"></span>
+      </div>
+    </div>
+    <div class="w-full max-w-5xl mx-auto p-4">
+      <div class="bg-white/90 rounded-2xl shadow-2xl p-4 md:p-8 flex flex-col gap-8 items-center">
+      
+        <!-- تفاصيل المنتج -->
+        <div class="w-full flex flex-col gap-4">
+          <h1 class="text-2xl md:text-3xl font-bold text-[#571399] mb-2 text-center">Dell Latitude 7400 Business Laptop</h1>
+          <div class="text-[#1D283B] text-base md:text-lg mb-2 text-center">14" FHD (1920x1080) | i5 الجيل الثامن | 16GB DDR4 | 256GB SSD NVMe | بطارية 4 ساعات</div>
+          <ul class="bg-[#DFF6FF]/60 rounded-lg shadow p-4 text-[#1D283B] space-y-2 text-sm md:text-base mb-4 text-center">
+            <li>💻 <b>الموديل:</b> Dell Latitude 7400 - حالة ممتازة</li>
+            <li>⚡ <b>المعالج:</b> Intel Core i5-8th Gen</li>
+            <li>🧠 <b>الرام:</b> 16GB DDR4</li>
+            <li>💾 <b>القرص:</b> 256GB SSD NVMe</li>
+            <li>🔋 <b>البطارية:</b> تدوم حتى 4 ساعات</li>
+            <li>🖥️ <b>الشاشة:</b> 14" FHD (1920x1080)</li>
+            <li>🎁 <b>السعر:</b> <span class="text-xl font-bold text-[#571399]">53000 دج</span></li>
+          </ul>
+          <!-- كاروسيل صور البيسي -->
+          <div class="w-full flex flex-col items-center mb-4">
+            <div id="default-carousel" class="relative w-full max-w-2xl" data-carousel="slide">
+              <!-- Carousel wrapper -->
+              <div class="relative h-80 overflow-hidden rounded-xl">
+                <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+                  <img src="https://m.media-amazon.com/images/I/61bbQN2ajdL._AC_SL1500_.jpg" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-white" alt="صورة المنتج 1">
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <img src="https://m.media-amazon.com/images/I/71jLJ313b+L._AC_SL1496_.jpg" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-white" alt="صورة المنتج 2">
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <img src="https://m.media-amazon.com/images/I/71aYmDZfYVL._AC_SL1500_.jpg" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-white" alt="صورة المنتج 3">
+                </div>
+                <!-- Item 4 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <img src="https://m.media-amazon.com/images/I/71RjUHO2vlL._AC_SL1500_.jpg" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-white" alt="صورة المنتج 4">
+                </div>
+                <!-- Item 5 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <img src="https://m.media-amazon.com/images/I/51f8t15775L._AC_SL1500_.jpg" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-white" alt="صورة المنتج 5">
+                </div>
+                <!-- Item 6 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <img src="https://m.media-amazon.com/images/I/611M-3SHG2L._AC_SL1496_.jpg" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-white" alt="صورة المنتج 6">
+                </div>
+              </div>
+              <!-- Slider indicators -->
+              <div class="flex justify-center items-center gap-2 mt-4">
+                <button type="button" class="w-12 h-12 rounded-lg overflow-hidden border-2 border-[#571399] shadow-lg transition-all duration-300 hover:scale-110" data-carousel-slide-to="0">
+                  <img src="https://m.media-amazon.com/images/I/61bbQN2ajdL._AC_SL1500_.jpg" class="w-full h-full object-cover" alt="صورة مصغرة 1">
+                </button>
+                <button type="button" class="w-12 h-12 rounded-lg overflow-hidden border-2 border-[#DFF6FF] shadow-lg transition-all duration-300 hover:scale-110" data-carousel-slide-to="1">
+                  <img src="https://m.media-amazon.com/images/I/71jLJ313b+L._AC_SL1496_.jpg" class="w-full h-full object-cover" alt="صورة مصغرة 2">
+                </button>
+                <button type="button" class="w-12 h-12 rounded-lg overflow-hidden border-2 border-[#DFF6FF] shadow-lg transition-all duration-300 hover:scale-110" data-carousel-slide-to="2">
+                  <img src="https://m.media-amazon.com/images/I/71aYmDZfYVL._AC_SL1500_.jpg" class="w-full h-full object-cover" alt="صورة مصغرة 3">
+                </button>
+                <button type="button" class="w-12 h-12 rounded-lg overflow-hidden border-2 border-[#DFF6FF] shadow-lg transition-all duration-300 hover:scale-110" data-carousel-slide-to="3">
+                  <img src="https://m.media-amazon.com/images/I/71RjUHO2vlL._AC_SL1500_.jpg" class="w-full h-full object-cover" alt="صورة مصغرة 4">
+                </button>
+                <button type="button" class="w-12 h-12 rounded-lg overflow-hidden border-2 border-[#DFF6FF] shadow-lg transition-all duration-300 hover:scale-110" data-carousel-slide-to="4">
+                  <img src="https://m.media-amazon.com/images/I/51f8t15775L._AC_SL1500_.jpg" class="w-full h-full object-cover" alt="صورة مصغرة 5">
+                </button>
+                <button type="button" class="w-12 h-12 rounded-lg overflow-hidden border-2 border-[#DFF6FF] shadow-lg transition-all duration-300 hover:scale-110" data-carousel-slide-to="5">
+                  <img src="https://m.media-amazon.com/images/I/611M-3SHG2L._AC_SL1496_.jpg" class="w-full h-full object-cover" alt="صورة مصغرة 6">
+                </button>
+              </div>
+              <!-- Slider controls -->
+              <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                  <svg class="w-4 h-4 text-[#571399] rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                  </svg>
+                  <span class="sr-only">السابق</span>
+                </span>
+              </button>
+              <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                  <svg class="w-4 h-4 text-[#571399] rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                  </svg>
+                  <span class="sr-only">التالي</span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <!-- فورم الطلب -->
+          <form class="w-full bg-[#571399]/90 rounded-lg shadow-lg p-6 text-white space-y-4 mt-2" autocomplete="off">
+            <h2 class="text-lg font-bold mb-2">اطلب الآن وسيتم التواصل معك</h2>
+            <div class="flex flex-col md:flex-row gap-4">
+              <input required type="text" placeholder="الاسم" class="flex-1 p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]" />
+              <input required type="text" placeholder="اللقب" class="flex-1 p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]" />
+            </div>
+            <input required type="tel" placeholder="رقم الهاتف" class="w-full p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]" />
+            <select required class="w-full p-2 rounded bg-white/90 text-[#1D283B] focus:outline-none focus:ring-2 focus:ring-[#1D283B]">
+              <option value="">اختر الولاية</option>
+              <option>الجزائر</option>
+              <option>وهران</option>
+              <option>قسنطينة</option>
+              <option>سطيف</option>
+              <option>عنابة</option>
+              <option>باقي الولايات...</option>
+            </select>
+            <div class="flex gap-4">
+              <label class="flex items-center gap-2">
+                <input type="radio" name="delivery" value="home" class="accent-[#1D283B]" checked /> للمنزل
+              </label>
+              <label class="flex items-center gap-2">
+                <input type="radio" name="delivery" value="office" class="accent-[#1D283B]" /> للبيرو
+              </label>
+            </div>
+            <button type="submit" class="w-full py-2 rounded bg-[#1D283B] hover:bg-[#571399] transition text-lg font-bold">أرسل الطلب</button>
+          </form>
+          <!-- شهادة عميل -->
+          <div class="w-full flex flex-col items-center mt-4">
+            <div id="testimonials-carousel" class="relative w-full max-w-lg">
+              <!-- Carousel wrapper -->
+              <div class="relative overflow-hidden rounded-xl">
+                <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Ayoub Ali Cherif" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Ayoub Ali Cherif</span>
+                          <span class="text-gray-500 text-sm">قبل 25 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">الثقة كون جا انسان</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️ 3</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Imad Aymen" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Imad Aymen</span>
+                          <span class="text-gray-500 text-sm">قبل 25 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">جودة الخدمات تهدر... G-O-A-T-</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️ 2</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Djamal Laïb" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Djamal Laïb</span>
+                          <span class="text-gray-500 text-sm">قبل 25 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">الله يبارك الصدق و المصداقية والأيادي الآمنة ربي يسهللك أمرك إن شاء الله</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/77.jpg" alt="Horr Abdelbasset" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Horr Abdelbasset</span>
+                          <span class="text-gray-500 text-sm">قبل 25 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">الجودة من التالي</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️ 3</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/23.jpg" alt="Sahih Ahmed Yacine" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Sahih Ahmed Yacine</span>
+                          <span class="text-gray-500 text-sm">قبل 25 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">الله يبارك ثقة.. الأخ ياسين</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️ 2</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/34.jpg" alt="Be Sma" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Be Sma</span>
+                          <span class="text-gray-500 text-sm">قبل 24 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">الصدق والمصداقية، معاملة في القمة 💙، ماراحش تكون اخر مرة ليا معاكم بإذن الله.</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Item 7 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                  <div class="bg-white rounded-xl shadow p-4">
+                    <div class="flex items-start gap-3">
+                      <img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Fares Bld" class="w-10 h-10 rounded-full border-2 border-[#571399]" />
+              <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="font-bold text-[#1D283B]">Fares Bld</span>
+                          <span class="text-gray-500 text-sm">قبل 24 أسبوع</span>
+                        </div>
+                        <div class="mt-1 text-[#1D283B]">Well received<br>وصلني حتى لباب الدار 🥰</div>
+                        <div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+                          <span>❤️</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Slider indicators -->
+              <div class="flex justify-center gap-2 mt-4">
+                <button type="button" class="w-2 h-2 rounded-full bg-[#571399]" data-carousel-slide-to="0"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-[#DFF6FF] border border-[#571399]" data-carousel-slide-to="1"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-[#DFF6FF] border border-[#571399]" data-carousel-slide-to="2"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-[#DFF6FF] border border-[#571399]" data-carousel-slide-to="3"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-[#DFF6FF] border border-[#571399]" data-carousel-slide-to="4"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-[#DFF6FF] border border-[#571399]" data-carousel-slide-to="5"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-[#DFF6FF] border border-[#571399]" data-carousel-slide-to="6"></button>
+              </div>
+            </div>
+            <div class="flex justify-center gap-2 mt-4">
+              <a href="https://www.facebook.com/your-post-url" target="_blank" class="px-4 py-2 bg-[#571399] text-white rounded-lg hover:bg-[#1D283B] transition-colors flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+                </svg>
+                شاهد كل التعليقات على الفيسبوك
+              </a>
+            </div>
+          </div>
+          <!-- FAQ مختصر -->
+          <div class="w-full flex flex-col items-center mt-6 mb-2">
+            <div class="bg-white/80 rounded-xl shadow p-4 max-w-2xl w-full">
+              <h3 class="text-[#571399] text-lg font-bold mb-3 flex items-center gap-2"><span>❓</span>أسئلة شائعة</h3>
+              <div class="space-y-3 text-[#1D283B] text-sm md:text-base">
+                <div><span class="font-bold">هل يوجد ضمان؟</span> <span class="ml-2">🛡️</span> نعم، ضمان لمدة 3 أشهر على كل الأجهزة.</div>
+                <div><span class="font-bold">كيف يتم التوصيل؟</span> <span class="ml-2">🚚</span> التوصيل حتى باب المنزل أو البيرو في كل الولايات.</div>
+                <div><span class="font-bold">هل الدفع عند الاستلام؟</span> <span class="ml-2">💵</span> نعم، الدفع عند الاستلام بعد التأكد من المنتج.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center text-xs text-[#1D283B] mt-6">© 2024 جميع الحقوق محفوظة</div>
+    </div>
+    <script>
+      // عداد تنازلي للعرض (مثلاً ينتهي بعد 2 يوم)
+      function startCountdown(duration) {
+        const countdown = document.getElementById('countdown');
+        let timer = duration, days, hours, minutes, seconds;
+        setInterval(function () {
+          days = Math.floor(timer / (60 * 60 * 24));
+          hours = Math.floor((timer % (60 * 60 * 24)) / 3600);
+          minutes = Math.floor((timer % 3600) / 60);
+          seconds = timer % 60;
+          countdown.textContent = `${days}ي ${hours}س ${minutes}د ${seconds}ث`;
+          if (--timer < 0) timer = 0;
+        }, 1000);
+      }
+      // عداد ليومين (48 ساعة)
+      startCountdown(2 * 24 * 60 * 60);
+
+      // تهيئة الكاروسيل
+      const items = document.querySelectorAll('[data-carousel-item]');
+      const indicators = document.querySelectorAll('[data-carousel-slide-to]');
+      const prevButton = document.querySelector('[data-carousel-prev]');
+      const nextButton = document.querySelector('[data-carousel-next]');
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        // إخفاء جميع العناصر
+        items.forEach(item => {
+          item.classList.add('hidden');
+          item.removeAttribute('data-carousel-item');
+        });
+        
+        // إظهار العنصر الحالي
+        items[index].classList.remove('hidden');
+        items[index].setAttribute('data-carousel-item', 'active');
+        
+        // تحديث المؤشرات
+        indicators.forEach((indicator, i) => {
+          if (i === index) {
+            indicator.classList.remove('border-[#DFF6FF]');
+            indicator.classList.add('border-[#571399]');
+            indicator.setAttribute('aria-current', 'true');
+          } else {
+            indicator.classList.remove('border-[#571399]');
+            indicator.classList.add('border-[#DFF6FF]');
+            indicator.setAttribute('aria-current', 'false');
+          }
+        });
+        
+        currentIndex = index;
+      }
+
+      // إضافة مستمعي الأحداث
+      prevButton.addEventListener('click', () => {
+        showSlide((currentIndex - 1 + items.length) % items.length);
+      });
+
+      nextButton.addEventListener('click', () => {
+        showSlide((currentIndex + 1) % items.length);
+      });
+
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          showSlide(index);
+        });
+      });
+
+      // التنقل التلقائي
+      let autoSlideInterval = setInterval(() => {
+        showSlide((currentIndex + 1) % items.length);
+      }, 3000);
+
+      // إيقاف التنقل التلقائي عند تحريك الماوس فوق الكاروسيل
+      const carousel = document.getElementById('default-carousel');
+      carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoSlideInterval);
+      });
+
+      // إعادة تشغيل التنقل التلقائي عند إزالة الماوس
+      carousel.addEventListener('mouseleave', () => {
+        autoSlideInterval = setInterval(() => {
+          showSlide((currentIndex + 1) % items.length);
+        }, 3000);
+      });
+
+      // عرض الشريحة الأولى عند التحميل
+      showSlide(0);
+
+      // تهيئة كاروسيل التعليقات
+      const testimonialItems = document.querySelectorAll('#testimonials-carousel [data-carousel-item]');
+      const testimonialIndicators = document.querySelectorAll('#testimonials-carousel [data-carousel-slide-to]');
+      let testimonialCurrent = 0;
+
+      function showTestimonial(index) {
+        testimonialItems.forEach(item => {
+          item.classList.add('hidden');
+          item.removeAttribute('data-carousel-item');
+        });
+        
+        testimonialItems[index].classList.remove('hidden');
+        testimonialItems[index].setAttribute('data-carousel-item', 'active');
+        
+        testimonialIndicators.forEach((indicator, i) => {
+          if (i === index) {
+            indicator.classList.remove('bg-[#DFF6FF]');
+            indicator.classList.add('bg-[#571399]');
+          } else {
+            indicator.classList.remove('bg-[#571399]');
+            indicator.classList.add('bg-[#DFF6FF]');
+          }
+        });
+        
+        testimonialCurrent = index;
+      }
+
+      // التنقل التلقائي للتعليقات (5 ثواني) ويدور باستمرار
+      let testimonialInterval = setInterval(() => {
+        showTestimonial((testimonialCurrent + 1) % testimonialItems.length);
+      }, 5000);
+
+      // إيقاف التنقل التلقائي عند تحريك الماوس
+      const testimonialCarousel = document.getElementById('testimonials-carousel');
+      testimonialCarousel.addEventListener('mouseenter', () => {
+        clearInterval(testimonialInterval);
+      });
+
+      testimonialCarousel.addEventListener('mouseleave', () => {
+        testimonialInterval = setInterval(() => {
+          showTestimonial((testimonialCurrent + 1) % testimonialItems.length);
+        }, 5000);
+      });
+
+      // المؤشرات
+      testimonialIndicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          showTestimonial(index);
+          // أعد تشغيل المؤقت التلقائي عند الضغط على المؤشر
+          clearInterval(testimonialInterval);
+          testimonialInterval = setInterval(() => {
+            showTestimonial((testimonialCurrent + 1) % testimonialItems.length);
+          }, 5000);
+        });
+      });
+
+      // عرض التعليق الأول عند التحميل
+      showTestimonial(0);
+    </script>
+    <!-- زر واتساب عائم -->
+    <a href="https://wa.me/213XXXXXXXXX" target="_blank" aria-label="تواصل واتساب" class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg p-4 flex items-center justify-center transition-all duration-200 group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M20.52 3.48A12 12 0 003.48 20.52l-1.32 4.8a1 1 0 001.24 1.24l4.8-1.32A12 12 0 0020.52 3.48z" fill="#fff"/><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.21-.242-.58-.487-.501-.669-.51-.173-.007-.372-.009-.571-.009-.198 0-.52.075-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.099 3.205 5.077 4.369.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.007-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/></svg>
+      <span class="hidden md:inline ml-2 font-bold">تواصل واتساب</span>
+    </a>
+  </body>
+</html> 
