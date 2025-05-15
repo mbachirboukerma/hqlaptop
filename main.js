@@ -107,6 +107,137 @@ productCarousel.addEventListener('mouseleave', () => {
 // عرض الشريحة الأولى لكاروسيل المنتج عند التحميل
 showProductSlide(0);
 
+// --- تأثير زوم على صور كاروسيل المنتج عند الضغط ---
+// فقط الصور الكبيرة داخل الكاروسيل
+const productMainImages = document.querySelectorAll('#default-carousel .h-80 img');
+productMainImages.forEach(img => {
+  img.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
+  img.addEventListener('click', function(e) {
+    e.stopPropagation();
+    img.classList.add('scale-110');
+    // إزالة الزوم عند الضغط خارج الصورة أو بعد ثانية
+    const removeZoom = () => img.classList.remove('scale-110');
+    setTimeout(removeZoom, 1000);
+    document.addEventListener('click', removeZoom, { once: true });
+  });
+});
+
+// --- Lightbox لصور المنتج ---
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+const lightboxPrev = document.getElementById('lightbox-prev');
+const lightboxNext = document.getElementById('lightbox-next');
+
+let lightboxIndex = 0;
+const productMainImagesArr = Array.from(document.querySelectorAll('#default-carousel .h-80 img'));
+const productMainImagesSrcs = productMainImagesArr.map(img => img.src);
+
+function openLightbox(index) {
+  if (!lightbox) return;
+  lightboxIndex = index;
+  lightboxImg.src = productMainImagesSrcs[lightboxIndex];
+  lightbox.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+function showLightboxImg(index) {
+  lightboxIndex = (index + productMainImagesSrcs.length) % productMainImagesSrcs.length;
+  lightboxImg.src = productMainImagesSrcs[lightboxIndex];
+}
+// فتح اللايتبوكس عند الضغط على صورة كبيرة
+productMainImagesArr.forEach((img, i) => {
+  img.addEventListener('click', e => {
+    e.preventDefault();
+    openLightbox(i);
+  });
+});
+// زر إغلاق
+if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+// زر التالي والسابق
+if (lightboxNext) lightboxNext.addEventListener('click', () => showLightboxImg(lightboxIndex + 1));
+if (lightboxPrev) lightboxPrev.addEventListener('click', () => showLightboxImg(lightboxIndex - 1));
+// إغلاق عند الضغط خارج الصورة
+if (lightbox) {
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+}
+// إغلاق عند الضغط على Esc
+window.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('hidden')) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showLightboxImg(lightboxIndex - 1);
+    if (e.key === 'ArrowRight') showLightboxImg(lightboxIndex + 1);
+  }
+});
+
+// --- دعم السحب باللمس (Swipe) في Lightbox ---
+let lbTouchStartX = null;
+let lbTouchEndX = null;
+if (lightboxImg) {
+  lightboxImg.addEventListener('touchstart', function(e) {
+    lbTouchStartX = e.changedTouches[0].screenX;
+  });
+  lightboxImg.addEventListener('touchend', function(e) {
+    lbTouchEndX = e.changedTouches[0].screenX;
+    if (lbTouchStartX !== null && lbTouchEndX !== null) {
+      const diff = lbTouchEndX - lbTouchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          showLightboxImg(lightboxIndex + 1);
+        } else {
+          showLightboxImg(lightboxIndex - 1);
+        }
+      }
+    }
+    lbTouchStartX = null;
+    lbTouchEndX = null;
+  });
+}
+// --- دعم التكبير الإضافي عند النقر المزدوج ---
+let lastTap = 0;
+let zoomed = false;
+if (lightboxImg) {
+  lightboxImg.addEventListener('click', function(e) {
+    const now = Date.now();
+    if (now - lastTap < 350) {
+      // Double click/tap
+      zoomed = !zoomed;
+      if (zoomed) {
+        lightboxImg.style.transform = 'scale(2)';
+        lightboxImg.style.cursor = 'zoom-out';
+      } else {
+        lightboxImg.style.transform = '';
+        lightboxImg.style.cursor = '';
+      }
+    }
+    lastTap = now;
+  });
+}
+// عند إغلاق اللايتبوكس أعد الصورة للوضع العادي
+if (lightboxClose) lightboxClose.addEventListener('click', () => {
+  zoomed = false;
+  if (lightboxImg) {
+    lightboxImg.style.transform = '';
+    lightboxImg.style.cursor = '';
+  }
+});
+if (lightbox) {
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      zoomed = false;
+      if (lightboxImg) {
+        lightboxImg.style.transform = '';
+        lightboxImg.style.cursor = '';
+      }
+    }
+  });
+}
+
 // تهيئة كاروسيل التعليقات
 const testimonialItems = document.querySelectorAll('#testimonials-carousel [data-carousel-item]');
 const testimonialIndicators = document.querySelectorAll('#testimonials-carousel [data-carousel-slide-to]');
@@ -320,6 +451,12 @@ orderForm.addEventListener('submit', function(e) {
   successStep.classList.remove('hidden');
   // يمكنك هنا إرسال البيانات فعلياً عبر fetch/ajax
   // showToast('✅ تم إرسال طلبك بنجاح! سنقوم بالتواصل معك قريباً', 'success');
+  // سكرول تلقائي لأعلى رسالة النجاح في الموبايل
+  if (window.innerWidth < 768) {
+    setTimeout(() => {
+      successStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100); // تأخير بسيط لضمان ظهور العنصر
+  }
 });
 // زر طلب جديد
 newOrderBtn.addEventListener('click', function() {
@@ -407,4 +544,126 @@ function startLiveNotifications() {
 }
 
 // بدء الإشعارات عند تحميل الصفحة
-startLiveNotifications(); 
+startLiveNotifications();
+
+// دعم السحب باللمس (Swipe) للكاروسيل الرئيسي للمنتج
+let touchStartX = null;
+let touchEndX = null;
+productCarousel.addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+});
+productCarousel.addEventListener('touchend', function(e) {
+  touchEndX = e.changedTouches[0].screenX;
+  if (touchStartX !== null && touchEndX !== null) {
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 40) { // عتبة السحب
+      if (diff < 0) {
+        // سحب لليسار: صورة تالية
+        showProductSlide((productCurrentIndex + 1) % productItems.length);
+      } else {
+        // سحب لليمين: صورة سابقة
+        showProductSlide((productCurrentIndex - 1 + productItems.length) % productItems.length);
+      }
+    }
+  }
+  touchStartX = null;
+  touchEndX = null;
+});
+
+// --- حفظ واسترجاع بيانات الفورم من localStorage ---
+const formFields = {
+  firstName: document.querySelector('#order-form input[placeholder="الاسم"]'),
+  lastName: document.querySelector('#order-form input[placeholder="اللقب"]'),
+  phone: document.getElementById('phone-input'),
+  qty: document.getElementById('qty-input'),
+  wilaya: document.getElementById('wilaya-select'),
+  daira: document.getElementById('daira-select'),
+  commune: document.getElementById('commune-select'),
+  address: document.getElementById('address-input'),
+  deliveryCompany: document.getElementById('delivery-company'),
+  deliveryType: document.querySelectorAll('input[name="delivery"]'),
+};
+
+function saveFormToStorage() {
+  const data = {
+    firstName: formFields.firstName.value,
+    lastName: formFields.lastName.value,
+    phone: formFields.phone.value,
+    qty: formFields.qty.value,
+    wilaya: formFields.wilaya.value,
+    daira: formFields.daira.value,
+    commune: formFields.commune.value,
+    address: formFields.address.value,
+    deliveryCompany: formFields.deliveryCompany.value,
+    deliveryType: document.querySelector('input[name="delivery"]:checked')?.value || '',
+  };
+  localStorage.setItem('orderFormData', JSON.stringify(data));
+}
+
+function loadFormFromStorage() {
+  const data = JSON.parse(localStorage.getItem('orderFormData') || '{}');
+  if (data.firstName) formFields.firstName.value = data.firstName;
+  if (data.lastName) formFields.lastName.value = data.lastName;
+  if (data.phone) formFields.phone.value = data.phone;
+  if (data.qty) formFields.qty.value = data.qty;
+  if (data.wilaya) formFields.wilaya.value = data.wilaya;
+  if (data.daira) formFields.daira.value = data.daira;
+  if (data.commune) formFields.commune.value = data.commune;
+  if (data.address) formFields.address.value = data.address;
+  if (data.deliveryCompany) formFields.deliveryCompany.value = data.deliveryCompany;
+  if (data.deliveryType) {
+    formFields.deliveryType.forEach(radio => {
+      if (radio.value === data.deliveryType) radio.checked = true;
+    });
+  }
+}
+
+function clearFormStorage() {
+  localStorage.removeItem('orderFormData');
+}
+
+// حفظ عند كل تغيير
+Object.values(formFields).forEach(field => {
+  if (field instanceof NodeList) {
+    field.forEach(radio => radio.addEventListener('change', saveFormToStorage));
+  } else if (field) {
+    field.addEventListener('input', saveFormToStorage);
+    field.addEventListener('change', saveFormToStorage);
+  }
+});
+
+// استرجاع عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', loadFormFromStorage);
+
+// حذف عند نجاح الإرسال
+orderForm.addEventListener('submit', clearFormStorage);
+
+// --- تحديث عدد الزوار الحاليين بشكل عشوائي ---
+const liveViewers = document.getElementById('live-viewers');
+function updateLiveViewers() {
+  const n = Math.floor(Math.random() * 19) + 7; // من 7 إلى 25
+  if (liveViewers) liveViewers.textContent = n;
+  const miniNum = document.getElementById('live-viewers-mini-num');
+  if (miniNum) miniNum.textContent = n;
+}
+updateLiveViewers();
+setInterval(updateLiveViewers, Math.random() * 10000 + 10000); // كل 10-20 ثانية
+
+// --- تمدد الشريط في الموبايل عند اللمس ---
+const liveViewersBar = document.getElementById('live-viewers-bar');
+const liveViewersFull = document.getElementById('live-viewers-full');
+const liveViewersMini = document.getElementById('live-viewers-mini');
+let liveViewersTimeout = null;
+if (liveViewersBar && liveViewersFull && liveViewersMini) {
+  liveViewersBar.addEventListener('click', () => {
+    if (window.innerWidth < 768) {
+      liveViewersFull.classList.remove('hidden');
+      liveViewersMini.classList.add('hidden');
+      clearTimeout(liveViewersTimeout);
+      liveViewersTimeout = setTimeout(() => {
+        liveViewersFull.classList.add('hidden');
+        liveViewersMini.classList.remove('hidden');
+      }, 2000);
+    }
+  });
+} 
